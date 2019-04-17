@@ -1,5 +1,4 @@
 Methodennamen ohne @RunMe:
-    testGetRunMeMethods
 Methodennamen mit @RunMe:
-    public void de.htw.ai.kbe.runmerunner.TestClass.test1()
+    public void de.htw.ai.kbe.runmerunner.AnnotationFinderTest.testGetRunMeMethods()
 "Nicht-invokierbare" Methoden mit @RunMe
