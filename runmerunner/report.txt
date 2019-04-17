@@ -1,0 +1,5 @@
+Methodennamen ohne @RunMe:
+    testGetRunMeMethods
+Methodennamen mit @RunMe:
+    public void de.htw.ai.kbe.runmerunner.TestClass.test1()
+"Nicht-invokierbare" Methoden mit @RunMe
