@@ -1,0 +1,4 @@
+Methodennamen ohne @RunMe:
+Methodennamen mit @RunMe:
+    public void de.htw.ai.kbe.runmerunner.AnnotationFinderTest.testGetRunMeMethods()
+"Nicht-invokierbare" Methoden mit @RunMe
