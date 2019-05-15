@@ -1,0 +1,19 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>    
+   <servlet>
+        <servlet-name>Songs Servlet</servlet-name>
+        <servlet-class>de.htw.ai.kbe.songsServlet.mySongServlet</servlet-class>
+        <init-param>
+            <param-name>uriToDBComponent</param-name>
+            <param-value>db-uri:some.server/dbId</param-value>
+        </init-param>
+    </servlet>
+  
+      <servlet-mapping>
+        <servlet-name>Echoing Servlet</servlet-name>
+        <url-pattern>/songsServlet</url-pattern>
+    </servlet-mapping>
+</web-app>
