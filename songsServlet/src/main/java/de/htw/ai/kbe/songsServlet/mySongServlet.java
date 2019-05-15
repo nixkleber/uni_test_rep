@@ -84,7 +84,7 @@ public class mySongServlet extends HttpServlet{
 			header.add(headerNames.nextElement());
 		}
 		
-		if(header.isEmpty() || (header.contains("accept") && request.getHeader("accept").equals("application/json")))
+		if(header.isEmpty() || (header.contains("Accept") && request.getHeader("Accept").equals("application/json")))
 		{
 			if(param.isEmpty())
 			{
@@ -97,13 +97,13 @@ public class mySongServlet extends HttpServlet{
 					}
 				}
 			}
-			else if(param.contains("songID"))
+			else if(param.contains("songId"))
 			{
-				if(request.getAttribute("songID") != null)
+				if(request.getAttribute("songId") != null)
 				{
 					try(PrintWriter out = response.getWriter()) 
 					{
-				    	responseObj = readSongs.get((int)request.getAttribute("songID") - 1);
+				    	responseObj = readSongs.get((int)request.getAttribute("songId") - 1);
 				    	jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(responseObj);
 				    	out.println(jsonString);
 					}

@@ -4,16 +4,12 @@
 
 <web-app>    
    <servlet>
-        <servlet-name>Songs Servlet</servlet-name>
+        <servlet-name>songsServlet</servlet-name>
         <servlet-class>de.htw.ai.kbe.songsServlet.mySongServlet</servlet-class>
-        <init-param>
-            <param-name>uriToDBComponent</param-name>
-            <param-value>db-uri:some.server/dbId</param-value>
-        </init-param>
     </servlet>
   
       <servlet-mapping>
-        <servlet-name>Echoing Servlet</servlet-name>
-        <url-pattern>/songsServlet</url-pattern>
+        <servlet-name>songsServlet</servlet-name>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 </web-app>
