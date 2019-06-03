@@ -62,8 +62,7 @@ public class mySongServlet extends HttpServlet{
 	}
 	
 	@Override
-	public void doGet(HttpServletRequest request, 
-	        HttpServletResponse response) throws IOException {
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// alle Parameter (keys)
 		
 		
@@ -84,10 +83,21 @@ public class mySongServlet extends HttpServlet{
 			header.add(headerNames.nextElement());
 		}
 		
-		if(header.isEmpty() || (header.contains("Accept") && request.getHeader("Accept").equals("application/json")))
+		if(header.contains("accept") && request.getHeader("accept").equals("application/json"))
 		{
 			if(param.isEmpty())
 			{
+				response.setContentType("text/html");
+		        PrintWriter outs = response.getWriter();
+		        outs.println("<html>");
+		        outs.println("<head>");
+		        outs.println("<title>Hello World!</title>");
+		        outs.println("</head>");
+		        outs.println("<body>");
+		        outs.println("<h1>Hello World!</h1>");
+		        outs.println("</body>");
+		        outs.println("</html>");
+				
 				try(PrintWriter out = response.getWriter()) 
 				{
 					for(OurSong song : readSongs)
