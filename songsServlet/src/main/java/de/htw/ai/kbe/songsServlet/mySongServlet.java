@@ -35,16 +35,17 @@ public class mySongServlet extends HttpServlet{
 	List<OurSong> readSongs;	
 	
 	private String uriToDB = null;
+	private String xmlFilePath = null;
 
 	@Override
 	public void init(ServletConfig servletConfig) throws ServletException {
 	    // Beispiel: Laden eines Konfigurationsparameters aus der web.xml
 		this.uriToDB = servletConfig.getInitParameter("uriToDBComponent");
+		this.xmlFilePath = servletConfig.getInitParameter("xmlPath");
 		
     	try 
     	{
-    		readSongs = readXMLToSongs("resources/songs.xml");
-        	ObjectMapper mapper = new ObjectMapper();
+    		readSongs = readXMLToSongs(xmlFilePath);
         	
         } 
     	catch(FileNotFoundException e)
@@ -69,7 +70,7 @@ public class mySongServlet extends HttpServlet{
 		
 		
 		Enumeration<String> paramNames = request.getParameterNames();
-		List<String> param = new ArrayList();
+		List<String> param = new ArrayList<String>();
 		while (paramNames.hasMoreElements()) {
 			param.add(paramNames.nextElement());
 		}
@@ -80,14 +81,14 @@ public class mySongServlet extends HttpServlet{
 			header.add(headerNames.nextElement());
 		}
 		
-		if(header.contains("accept") && request.getHeader("accept").equals("application/json"))
+		if(header.contains("accept"))
 		{
 			if(param.isEmpty())
 			{
 				try(PrintWriter out = response.getWriter()) 
 				{
 					
-					String a = "";
+				//	String a = "";
 					response.setContentType("text/html");
 			        PrintWriter outs = response.getWriter();
 			        outs.println(readSongs.toString());
@@ -107,11 +108,19 @@ public class mySongServlet extends HttpServlet{
 			}
 			else if(param.contains("songId"))
 			{
-				if(request.getAttribute("songId") != null)
+				if(!(request.getParameter("songId").isEmpty()))
 				{
 					try(PrintWriter out = response.getWriter()) 
 					{
-				    	responseObj = readSongs.get((int)request.getAttribute("songId") - 1);
+						int id = Integer.parseInt(request.getParameter("songId"));
+						
+						for (OurSong song : readSongs) {
+							if (id == song.getId()) {
+								responseObj = readSongs.get(id);
+							}
+						}
+						
+				    	
 				    	jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(responseObj);
 				    	out.println(jsonString);
 					}

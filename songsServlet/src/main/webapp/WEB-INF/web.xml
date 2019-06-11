@@ -6,6 +6,10 @@
    <servlet>
         <servlet-name>songsServlet</servlet-name>
         <servlet-class>de.htw.ai.kbe.songsServlet.mySongServlet</servlet-class>
+         <init-param>
+            <param-name>xmlPath</param-name>
+            <param-value>/home/ricardo/Documents/KBE/Beleg2/songs.xml</param-value>
+        </init-param>
     </servlet>
   
       <servlet-mapping>
