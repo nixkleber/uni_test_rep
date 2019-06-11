@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
-	<persistence-unit name="songDB-PU" transaction-type="RESOURCE_LOCAL">
+	<persistence-unit name="songDB" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-		<class>de.htwBerlin.ai.kbe.User</class>
+		<class>de.htw.ai.kbe.songsServlet.OurSong</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
