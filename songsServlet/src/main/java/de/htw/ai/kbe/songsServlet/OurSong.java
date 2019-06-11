@@ -1,21 +1,27 @@
 package de.htw.ai.kbe.songsServlet;
 
 
+import java.io.Serializable;
+
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "song")
-public class OurSong {
+@Table(name = "song")
+public class OurSong implements Serializable{
 
-    private Integer id;
+	@Id
+    private int id;
 	private String title;
 	private String artist;
 	private String album;
-	private Integer released;
+	private int released;
 
 	public OurSong() {    
 	}
 
-	public OurSong(Integer id, String title, String artist, String album, Integer released) {
+	public OurSong(int id, String title, String artist, String album, int released) {
         this.id = id;
         this.title = title;
         this.artist = artist;
@@ -23,11 +29,11 @@ public class OurSong {
         this.released = released;
     }
 	
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 	
-	public void setId(Integer id) {
+	public void setId(int id) {
         this.id = id;
     }
 
@@ -55,11 +61,11 @@ public class OurSong {
         this.album = album;
     }
 
-	public Integer getReleased() {
+	public int getReleased() {
 		return released;
 	}
 
-	public void setReleased(Integer released) {
+	public void setReleased(int released) {
         this.released = released;
     }
     

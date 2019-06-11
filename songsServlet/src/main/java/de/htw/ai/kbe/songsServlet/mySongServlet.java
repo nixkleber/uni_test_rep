@@ -40,13 +40,10 @@ public class mySongServlet extends HttpServlet{
 	public void init(ServletConfig servletConfig) throws ServletException {
 	    // Beispiel: Laden eines Konfigurationsparameters aus der web.xml
 		this.uriToDB = servletConfig.getInitParameter("uriToDBComponent");
-	}
-	
-	public mySongServlet() 
-	{
+		
     	try 
     	{
-    		readSongs = readXMLToSongs("songs.xml");
+    		readSongs = readXMLToSongs("resources/songs.xml");
         	ObjectMapper mapper = new ObjectMapper();
         	
         } 
@@ -87,24 +84,25 @@ public class mySongServlet extends HttpServlet{
 		{
 			if(param.isEmpty())
 			{
-				response.setContentType("text/html");
-		        PrintWriter outs = response.getWriter();
-		        outs.println("<html>");
-		        outs.println("<head>");
-		        outs.println("<title>Hello World!</title>");
-		        outs.println("</head>");
-		        outs.println("<body>");
-		        outs.println("<h1>Hello World!</h1>");
-		        outs.println("</body>");
-		        outs.println("</html>");
-				
 				try(PrintWriter out = response.getWriter()) 
 				{
+					
+					String a = "";
+					response.setContentType("text/html");
+			        PrintWriter outs = response.getWriter();
+			        outs.println(readSongs.toString());
+					
 					for(OurSong song : readSongs)
 					{
 				    	jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(song);
 				    	out.println(jsonString);
 					}
+				}
+				catch(Exception e)
+				{
+					response.setContentType("text/html");
+			        PrintWriter outs = response.getWriter();
+			        outs.println("exception");
 				}
 			}
 			else if(param.contains("songId"))
@@ -132,7 +130,10 @@ public class mySongServlet extends HttpServlet{
 				}
 				else
 				{
-					System.out.println();
+					String a = "";
+					response.setContentType("text/html");
+			        PrintWriter outs = response.getWriter();
+			        outs.println("readSongs list");
 				}
 			}
 			else
