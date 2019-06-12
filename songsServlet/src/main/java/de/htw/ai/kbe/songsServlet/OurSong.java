@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "song")
-@Entity
+@Entity(name = "song")
 @Table(name = "song")
 public class OurSong implements Serializable{
 

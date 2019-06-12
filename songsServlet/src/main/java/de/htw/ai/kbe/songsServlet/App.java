@@ -10,7 +10,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -32,7 +35,11 @@ public class App {
     		readSongs = readXMLToSongs("resources/songs.xml");
         	ObjectMapper mapper = new ObjectMapper();
     		System.out.println(readSongs.toString());
-
+    		
+        	/*for (OurSong song : readSongs) 
+        	{
+        		addSong(song.getId(), song.getTitle(), song.getArtist(), song.getAlbum(), song.getReleased());
+           	}*/
         	
         } 
     	catch(FileNotFoundException e)
@@ -43,10 +50,11 @@ public class App {
     	catch (Exception e) 
     	{
     		System.out.println(e);
-    	}
-    	
-    	addSong(20,"Sunny","Stanley Turrentine","The Sp", 2003);
-    	
+    	}	
+    	//addSong(20,"Sunny","Stanley Turrentine","The Sp", 2003);
+    	//getSongs();
+    	//changeSong(20,"What UP");
+    	deleteSong(20);
 
 	}
 	
@@ -84,7 +92,96 @@ public class App {
             em.close();
         }
     }
-	
+
+    
+    public static void getSong(int id) {
+    	EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+    	
+    	String query = "SELECT s FROM song s WHERE s.id = :songID";
+    	
+    	TypedQuery<OurSong> tq = em.createQuery(query, OurSong.class);
+    	tq.setParameter("songID", id);
+    	
+    	OurSong song = null;
+    	try {
+    		song = tq.getSingleResult();
+    		System.out.println(song.getTitle());
+    	}
+    	catch(NoResultException ex) {
+    		ex.printStackTrace();
+    	}
+    	finally {
+    		em.close();
+    	}
+    }
+    
+    public static void getSongs() {
+    	EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+    	
+    	String strQuery = "SELECT s FROM song s WHERE s.id IS NOT NULL";
+    	
+    	TypedQuery<OurSong> tq = em.createQuery(strQuery, OurSong.class);
+    	List<OurSong> songs;
+    	try {
+    		songs = tq.getResultList();
+    		songs.forEach(song->System.out.println(song.getTitle()));
+    	}
+    	catch(NoResultException ex) {
+    		ex.printStackTrace();
+    	}
+    	finally {
+    		em.close();
+    	}
+    }
+    
+    public static void changeSong(int id, String title) {
+        EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityTransaction et = null;
+        
+    	OurSong song = null;
+
+        try {
+            et = em.getTransaction();
+            et.begin();
+
+            song = em.find(OurSong.class, id);
+            song.setTitle(title);
+
+            em.persist(song);
+            et.commit();
+        } catch (Exception ex) {
+            if (et != null) {
+                et.rollback();
+            }
+            ex.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+    
+    public static void deleteSong(int id) {
+    	EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityTransaction et = null;
+        OurSong song = null;
+
+        try {
+            et = em.getTransaction();
+            et.begin();
+            song = em.find(OurSong.class, id);
+            em.remove(song);
+            et.commit();
+        } catch (Exception ex) {
+            if (et != null) {
+                et.rollback();
+            }
+            ex.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+    
+    
+    
 	private static List<OurSong> unmarshal(Unmarshaller unmarshaller, Class<OurSong> clazz, String xmlLocation)throws JAXBException 
 	{
 	    StreamSource xml = new StreamSource(xmlLocation);
